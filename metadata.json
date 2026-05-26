@@ -1,0 +1,6 @@
+{
+  "name": "Vitaliza Churn Analytics",
+  "description": "Análise executiva completa e simulador preditivo de Churn para planos fitness da Vitaliza",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

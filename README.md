@@ -1,110 +1,20 @@
-# Executando o Projeto VitalizIA do Google AI Studio
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+</div>
 
-## 1. Instale as ferramentas necessárias
+# Run and deploy your AI Studio app
 
-Você vai precisar de:
+This contains everything you need to run your app locally.
 
-- Git  
-- Node.js  
+View your app in AI Studio: https://ai.studio/apps/6c657805-fce8-4ec3-b82a-c1980f4fb13e
 
-Links oficiais:
+## Run Locally
 
-- https://git-scm.com
-- https://nodejs.org
-
----
-
-## 2. Verifique se está tudo instalado
-
-Abra o terminal e execute:
-
-```bash
-git --version
-node --version
-npm --version
-```
-
-Se aparecerem as versões instaladas, está tudo certo.
-
----
-
-## 3. Clone o projeto do GitHub
-
-No terminal:
-
-```bash
-git clone URL_DO_REPOSITORIO
-```
-
-Exemplo:
-
-```bash
-git clone https://github.com/usuario/projeto.git
-```
-
-Entre na pasta do projeto:
-
-```bash
-cd projeto
-```
-
----
-
-## 4. Instale as dependências
-
-Execute:
-
-```bash
-npm install
-```
-
-ou, caso o projeto utilize Yarn:
-
-```bash
-yarn
-```
-
----
-
-## 5. Configure a API Key do Google AI Studio
-
-Acesse:
-
-https://aistudio.google.com
-
-Gere uma API Key.
-
----
-
-## 6. Edite o arquivo `.env`
-
-Na raiz do projeto, edite o arquivo .env adicionando:
-
-```env
-GOOGLE_API_KEY=sua_chave_aqui
-```
+**Prerequisites:**  Node.js
 
 
-## 7. Execute o projeto
-
-Normalmente:
-
-```bash
-npm run dev
-```
-
-ou:
-
-```bash
-npm start
-```
-
----
-
-## 8. Acesse no navegador
-
-Abre o projeto em:
-
-```text
-http://localhost:3000
-```
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`

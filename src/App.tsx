@@ -93,6 +93,141 @@ export default function App() {
             </p>
           </div>
         );
+      case "modeling":
+        return (
+          <div className="bg-slate-950/40 p-5 rounded-2xl border border-slate-800 space-y-4">
+            <h4 className="text-xs text-indigo-400 uppercase tracking-widest font-mono font-semibold">
+              MÉTRICAS COMPARATIVAS DE MODELAGEM
+            </h4>
+            
+            <div className="space-y-3">
+              {/* Logistic Regression Card */}
+              <div className="bg-slate-900/50 p-3 rounded-lg border border-slate-800/80">
+                <div className="flex justify-between items-center mb-1.5">
+                  <span className="text-xs font-bold text-slate-200">Regressão Logística</span>
+                  <span className="text-[10px] bg-emerald-500/10 text-emerald-400 font-mono px-2 py-0.5 rounded border border-emerald-500/10">Sem Overfitting (Estável)</span>
+                </div>
+                <div className="grid grid-cols-3 gap-1 text-center">
+                  <div className="bg-slate-950/30 p-1.5 rounded">
+                    <span className="text-[9px] text-slate-500 uppercase block font-mono">ROC-AUC</span>
+                    <span className="text-xs font-bold font-mono text-slate-300">0.96</span>
+                  </div>
+                  <div className="bg-slate-950/30 p-1.5 rounded">
+                    <span className="text-[9px] text-slate-500 uppercase block font-mono">F1-Score (C1)</span>
+                    <span className="text-xs font-bold font-mono text-slate-300 font-semibold text-indigo-300">0.77</span>
+                  </div>
+                  <div className="bg-slate-950/30 p-1.5 rounded">
+                    <span className="text-[9px] text-slate-500 uppercase block font-mono">Acurácia (Val)</span>
+                    <span className="text-xs font-bold font-mono text-slate-300">89.5%</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Random Forest Card */}
+              <div className="bg-slate-900/50 p-3 rounded-lg border border-slate-800/80">
+                <div className="flex justify-between items-center mb-1.5">
+                  <span className="text-xs font-bold text-slate-200">Random Forest</span>
+                  <span className="text-[10px] bg-amber-500/10 text-amber-400 font-mono px-2 py-0.5 rounded border border-amber-500/10">Risco de Sobreajuste</span>
+                </div>
+                <div className="grid grid-cols-3 gap-1 text-center">
+                  <div className="bg-slate-950/30 p-1.5 rounded">
+                    <span className="text-[9px] text-slate-500 uppercase block font-mono">ROC-AUC</span>
+                    <span className="text-xs font-bold font-mono text-slate-300">0.97</span>
+                  </div>
+                  <div className="bg-slate-950/30 p-1.5 rounded">
+                    <span className="text-[9px] text-slate-500 uppercase block font-mono">F1-Score (C1)</span>
+                    <span className="text-xs font-bold font-mono text-indigo-300 font-semibold">0.79</span>
+                  </div>
+                  <div className="bg-slate-950/30 p-1.5 rounded">
+                    <span className="text-[9px] text-slate-500 uppercase block font-mono">Acurácia (Treino)</span>
+                    <span className="text-xs font-bold font-mono text-amber-400 font-semibold">99.2% *</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-indigo-950/20 p-2.5 rounded-lg border border-indigo-500/10 text-[10px] text-slate-400 font-sans leading-relaxed">
+              * A disparidade de acurácia de 99% no treino vs 92% na validação indica tendência ao <strong>sobreajuste</strong> do Random Forest, requerendo hiperparâmetros restritos para produção.
+            </div>
+          </div>
+        );
+      case "leakage":
+        return (
+          <div className="bg-slate-950/40 p-5 rounded-2xl border border-slate-800 space-y-3.5">
+            <h4 className="text-xs text-rose-400 uppercase tracking-widest font-mono font-semibold">
+              DIAGNÓSTICO: VAZAMENTO E DADOS FUTUROS
+            </h4>
+
+            <div className="space-y-2.5">
+              <div className="bg-rose-950/10 border border-rose-500/10 p-3 rounded-lg">
+                <span className="text-[10px] text-rose-400 font-mono uppercase font-bold block mb-1">🔴 ALERTA DE TARGET LEAKAGE</span>
+                <p className="text-xs text-slate-300 font-sans leading-relaxed">
+                  <strong>Lifetime</strong> e <strong>Month_to_end_contract</strong> carregam o relógio do Churn de forma retroativa. Se medidos no momento zero, eles geram falsos acertos de laboratório.
+                </p>
+              </div>
+
+              <div className="bg-amber-950/10 border border-amber-500/10 p-3 rounded-lg">
+                <span className="text-[10px] text-amber-400 font-mono uppercase font-bold block mb-1">⚠️ EXIGÊNCIA DE INFORMAÇÕES FUTURAS</span>
+                <p className="text-xs text-slate-300 font-sans leading-relaxed">
+                  <strong>Avg_class_frequency_current_month</strong> exige que o mês já tenha sido encerrado. No dia a dia operacional, tentar prever com essa variável pressupõe ter dados que só existirão no futuro.
+                </p>
+              </div>
+
+              <div className="bg-emerald-950/15 border border-emerald-500/10 p-3 rounded-lg">
+                <span className="text-[10px] text-emerald-400 font-mono uppercase font-bold block mb-1">✅ SOLUÇÃO PROPAGADA EM PRODUÇÃO</span>
+                <p className="text-xs text-slate-300 font-sans leading-relaxed">
+                  Mapear comportamentos em janelas deslizantes (rolling statistics) de 14 dias em vez de médias mensais absolutas e remover variáveis associadas ao fim programado.
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      case "mitigation":
+        return (
+          <div className="bg-slate-950/40 p-5 rounded-2xl border border-slate-800 space-y-4">
+            <h4 className="text-xs text-emerald-400 uppercase tracking-widest font-mono font-semibold">
+              BLINDAGEM CONTRA DISTORÇÕES TEMPORAIS
+            </h4>
+
+            <div className="space-y-3">
+              {/* Feature 1 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                <div className="bg-red-950/10 border border-rose-500/10 p-2.5 rounded-lg">
+                  <span className="text-[9px] text-red-400 font-mono uppercase font-bold block mb-0.5">Vulnerabilidade (Leakage)</span>
+                  <p className="text-[11px] text-slate-400 font-sans leading-tight">
+                    <strong>Lifetime total</strong> e contadores de fim de contrato revelam retroativamente a data exata do cancelamento da matrícula.
+                  </p>
+                </div>
+                <div className="bg-emerald-950/15 border border-emerald-500/10 p-2.5 rounded-lg">
+                  <span className="text-[9px] text-emerald-400 font-mono uppercase font-bold block mb-0.5">Engenharia Anti-Vazamento</span>
+                  <p className="text-[11px] text-slate-300 font-sans leading-tight">
+                    Substituído por <strong>janelas históricas truncadas</strong> e faixas de criticidade que analisam somente o comportamento retroativo consolidado.
+                  </p>
+                </div>
+              </div>
+
+              {/* Feature 2 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                <div className="bg-red-950/10 border border-rose-500/10 p-2.5 rounded-lg">
+                  <span className="text-[9px] text-red-400 font-mono uppercase font-bold block mb-0.5">Dependência Futura</span>
+                  <p className="text-[11px] text-slate-400 font-sans leading-tight">
+                    <strong>Frequência do mês corrente</strong> assume o fechamento de um período que ainda não terminou na data de consulta operacional.
+                  </p>
+                </div>
+                <div className="bg-emerald-950/15 border border-emerald-500/10 p-2.5 rounded-lg">
+                  <span className="text-[9px] text-emerald-400 font-mono uppercase font-bold block mb-0.5">Engenharia Anti-Vazamento</span>
+                  <p className="text-[11px] text-slate-300 font-sans leading-tight">
+                    Substituído por <strong>médias deslizantes (rolling statistics)</strong> baseadas nos acessos reais de catraca nos últimos 14 dias de treino.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-indigo-950/20 p-2.5 rounded-lg border border-indigo-500/10 text-[10px] text-slate-400 font-sans leading-relaxed text-center">
+                🛡️ Com essas salvaguardas, as predições de Churn do simulador são <strong>operáveis em tempo real</strong> a qualquer dia, sem risco de viés retrospectivo.
+              </div>
+            </div>
+          </div>
+        );
       case "general":
       case "actions":
       default:
@@ -190,7 +325,7 @@ export default function App() {
               }`}
             >
               <BarChart3 size={13} />
-              Pitch Deck (5 Slides)
+              Pitch Deck (8 Slides)
             </button>
 
             <button

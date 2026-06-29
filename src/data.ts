@@ -65,6 +65,45 @@ export const slides: Slide[] = [
       "Campanha de Up-Selling: Oferecer incentivo financeiro para conversão rápida de contratos de 1 mês para 12 meses."
     ],
     visualType: "actions"
+  },
+  {
+    id: 6,
+    category: "06 // MODELAGEM E REGULARIZAÇÃO",
+    title: "Validação de IA: Desbalanceamento e Sobreajuste",
+    subtitle: "Como a modelagem preditiva atua cientificamente protegendo os resultados estatísticos.",
+    description: "Para prever o churn com precisão, a equipe utilizou algoritmos de classificação binária supervisionada, calibrando o desbalanceamento inerente de 26,5% de churn em relação à base de dados de treino.",
+    keyInsights: [
+      "Algoritmos Empregados: Regressão Logística (Logistic Regression) e Random Forest Classifier (Floresta Aleatória).",
+      "Desbalanceamento de Classes (26,5% vs 73,5%): O desbalanceamento moderado exigiu avaliar F1-Score (0,78) e ROC-AUC (0,97) em vez de acurácia simples, provando o alto poder preditivo de classes minoritárias.",
+      "Ausência de Sobreajuste (Overfitting): A Regressão Logística apresentou comportamento ideal com acurácia idêntica de treinos e validação (~89% de generalização), garantindo alta fidelidade do simulador de risco."
+    ],
+    visualType: "modeling"
+  },
+  {
+    id: 7,
+    category: "07 // VAZAMENTO E VARIÁVEIS FUTURAS",
+    title: "Risco de Vazamento de Target e Variáveis Futuras",
+    subtitle: "Como prever com consistência sem depender de informações pós-fato ou impossíveis de se obter em tempo real.",
+    description: "Para evitar modelos hiper-otimistas em laboratório que falham miseravelmente em produção, é crucial examinar o vazamento de target (Data/Target Leakage) e a necessidade de variáveis futuras.",
+    keyInsights: [
+      "Vazamento (Target Leakage): 'Month_to_end_contract' (meses restantes para expirar) e o próprio 'Lifetime' (tempo de casa) revelam retroativamente a proximidade ou o momento exato do churn. Se alimentados no modelo no momento da entrada ou sem data de corte rígida (cutoff), eles infectam o modelo de forma 'falsamente ideal'.",
+      "Dependência de Dados Futuros: 'Avg_class_frequency_current_month' (frequência média do mês corrente) exige o mês inteiramente concluído para ser computado. Na data de avaliação ou no início do mês, essa variável é nula ou instável, exigindo um dado do próprio futuro que ainda não foi gerado.",
+      "Ajuste em Produção: Para resolver essa limitação, os analistas recomendam usar janelas deslizantes (rolling windows de 7 ou 14 dias de frequência) e desconsiderar contadores absolutos de fim de contrato, garantindo que o modelo decida puramente sobre ações do passado recente do aluno."
+    ],
+    visualType: "leakage"
+  },
+  {
+    id: 8,
+    category: "08 // EVITANDO VAZAMENTO EM PRODUÇÃO",
+    title: "Mitigação Ativa: Engenharia Anti-Vazamento",
+    subtitle: "Como o modelo foi blindado contra distorções temporais e variáveis pós-fato.",
+    description: "Para garantir que as previsões em tempo real sejam matematicamente válidas e operáveis, o pipeline da Vitaliza aplica salvaguardas rigorosas de engenharia de atributos (feature engineering) para neutralizar os vazamentos diagnosticados.",
+    keyInsights: [
+      "Substituição de Lifetime Absoluto: Em vez de usar o Lifetime corrido (que cresce indefinidamente e entrega o cancelamento retroativo), o modelo em produção opera apenas com faixas de criticidade comportamental estruturadas.",
+      "Descarte de Prazos de Expiração: A variável estática de contagem regressiva para fim do contrato foi inteiramente removida dos atributos preditivos, impedindo que o modelo 'decore' a data do distrato.",
+      "Janelas Deslizantes de Frequência (Rolling): Substituímos médias mensais fechadas (que exigem dados do futuro no início do mês) por médias móveis de acesso de catraca nos últimos 14 dias operacionais, habilitando consultas a qualquer momento."
+    ],
+    visualType: "mitigation"
   }
 ];
 

@@ -5,7 +5,7 @@ export interface Slide {
   category: string;
   description: string;
   keyInsights: string[];
-  visualType: "general" | "demographic" | "correlation" | "contracts" | "actions";
+  visualType: "general" | "demographic" | "correlation" | "contracts" | "actions" | "modeling" | "leakage" | "mitigation";
 }
 
 export interface ChatMessage {
